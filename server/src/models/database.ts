@@ -14,7 +14,10 @@ let db: SqlJsDatabase;
 export async function initDatabase(): Promise<SqlJsDatabase> {
   if (db) return db;
 
-  const SQL = await initSqlJs();
+ const SQL = await initSqlJs({
+  locateFile: (file) =>
+    path.join(process.cwd(), 'node_modules/sql.js/dist', file)
+});
 
   // Load existing database if it exists
   if (fs.existsSync(dbPath)) {
